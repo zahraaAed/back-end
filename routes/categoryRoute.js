@@ -7,18 +7,18 @@ const{getCategory,
     deleteCategory,
     updateCategory
 }=require('../controllers/categoryController')
-router.get("/", getCategory);
+router.get("/category", getCategory);
 
-  router.get("/:id", getsCategory);
-
-
-  router.post("/",createCategory)
+  router.get("/category/:id", getsCategory);
 
 
-  router.delete("/:id",deleteCategory)
+  router.post("/category-post",createCategory)
 
 
-  router.patch("/:id", updateCategory)
+  router.delete("/category-delete/:id",deleteCategory)
+
+
+  router.patch("/category-update/:id", updateCategory)
 
 
    module.exports=router

@@ -7,18 +7,18 @@ const{createAdmin,
     updateAdmin
   
 }=require('../controllers/AdminController')
-  router.get("/", getAdmin);
+  router.get("/admin", getAdmin);
 
-  router.get("/:id", getsAdmin);
-
-
-  router.post("/",createAdmin)
+  router.get("/admin/:id", getsAdmin);
 
 
-  router.delete("/:id",deleteAdmin)
+  router.post("/admin-post",createAdmin)
 
 
-  router.patch("/:id", updateAdmin)
+  router.delete("/admin-delete/:id",deleteAdmin)
+
+
+  router.patch("/admin-update/:id", updateAdmin)
 
 
    module.exports=router

@@ -7,18 +7,18 @@ const{createFeedback,
     updateFeedback
   
 }=require('../controllers/FeedbackController')
-router.get("/", getFeedback);
+router.get("/feedback", getFeedback);
 
-  router.get("/:id", getsFeedback);
-
-
-  router.post("/",createFeedback)
+  router.get("/feedback/:id", getsFeedback);
 
 
-  router.delete("/:id",deleteFeedback)
+  router.post("/feedback-post",createFeedback)
 
 
-  router.patch("/:id", updateFeedback)
+  router.delete("/feedback-delete/:id",deleteFeedback)
+
+
+  router.patch("/feedback-update/:id", updateFeedback)
 
 
    module.exports=router

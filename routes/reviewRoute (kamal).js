@@ -3,11 +3,11 @@ const express = require("express");
 
 const app = express();
 
-const getReviews = require("./controllers/reviewController(kamal).js");
-const getReview = require("./controllers/reviewController(kamal).js");
-const createReview = require("./controllers/reviewController(kamal).js");
-const deleteReview = require("./controllers/reviewController(kamal).js");
-const updateReview = require("./controllers/reviewController(kamal).js");
+const getReviews = require("../controllers/reviewController(kamal).js");
+const getReview = require("../controllers/reviewController(kamal).js");
+const createReview = require("../controllers/reviewController(kamal).js");
+const deleteReview = require("../controllers/reviewController(kamal).js");
+const updateReview = require("../controllers/reviewController(kamal).js");
 
 app.get("/", getReviews);
 

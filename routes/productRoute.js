@@ -9,19 +9,19 @@ const{   getProduct,
     updateProduct
  
 }=require('../controllers/productsController')
-router.get("/", getProduct);
+router.get("/product", getProduct);
 
-  router.get("/:id", getsProduct);
+  router.get("/product/:id", getsProduct);
 
-  router.get("/product", getProductsByFlavor);
+  router.get("/product-flavor", getProductsByFlavor);
 
-  router.post("/",createProduct)
-
-
-  router.delete("/:id",deleteProduct)
+  router.post("/product-post",createProduct)
 
 
-  router.patch("/:id", updateProduct)
+  router.delete("/product-delete/:id",deleteProduct)
+
+
+  router.patch("/product-update/:id", updateProduct)
 
 
    module.exports=router

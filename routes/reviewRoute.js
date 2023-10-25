@@ -8,18 +8,18 @@ const{   getReview,
     updateReview
  
 }=require('../controllers/reviewController')
-router.get("/", getReview);
+router.get("/review", getReview);
 
-  router.get("/:id", getsReview);
-
-
-  router.post("/",createReview)
+  router.get("/review/:id", getsReview);
 
 
-  router.delete("/:id",deleteReview)
+  router.post("/review-post",createReview)
 
 
-  router.patch("/:id", updateReview)
+  router.delete("/review-delete/:id",deleteReview)
 
 
-   module.exports=router
+  router.patch("/review-update/:id", updateReview)
+
+
+  module.exports=router
