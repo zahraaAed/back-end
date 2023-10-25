@@ -3,7 +3,7 @@ const express=require("express")
 const mongoose=require('mongoose')
 
 
-const workoutRoutes=require('./routes/Admin')
+const adminRoutes=require('./routes/Admin')
 const categoryRoutes=require('./routes/categoryRoute')
 const productRoutes=require('./routes/productRoute')
 const reviewsRoutes=require('./routes/reviewRoute')
@@ -20,7 +20,7 @@ app.use((req,res,next)=>{
     console.log(req.path,req.method)
 })
 //routes
-  app.use('/api/workout', workoutRoutes)
+  app.use('/api/admin', adminRoutes)
   app.use('/api/categoryRoute', categoryRoutes)
   app.use('/api/productRoute', productRoutes)
   app.use('/api/reviewRoute', reviewsRoutes)
