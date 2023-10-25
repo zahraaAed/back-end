@@ -1,5 +1,5 @@
 
-const Review=require("../models/Reviews")
+const Review=require("../models/reviews")
 const mongoose=require('mongoose')
 //get all 
 const getReview=async (req, res) =>{

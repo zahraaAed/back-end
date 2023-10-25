@@ -9,6 +9,6 @@ const ReviewSchema = new Schema({
 });
 
 
-const Review = mongoose.model('Admin', ReviewSchema);
+const Review = mongoose.model('Review', ReviewSchema);
 
 module.exports = Review;

@@ -6,7 +6,7 @@ const{getCategory,
     createCategory,
     deleteCategory,
     updateCategory
-}=require('../controllers/AdminController')
+}=require('../controllers/categoryController')
 router.get("/", getCategory);
 
   router.get("/:id", getsCategory);

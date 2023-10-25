@@ -7,7 +7,7 @@ const{   getReview,
     deleteReview,
     updateReview
  
-}=require('../controllers/ReviewsController')
+}=require('../controllers/reviewController')
 router.get("/", getReview);
 
   router.get("/:id", getsReview);
