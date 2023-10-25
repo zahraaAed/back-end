@@ -21,6 +21,18 @@ if(!products){
 res.status(200).json(products)
 }
 
+//for flavours
+const getProductsByFlavor = async(req, res) => {
+  try {
+    const flavor = req.query.flavor
+    const products = await Product.filter(obj => obj.flavours === flavor);
+
+    res.status(200).json(products);
+  } catch {
+      console.log(error.message);
+      res.status(500).json({message: error.message})
+    }
+}
 
 //create
 const createProduct=async (req, res) =>{
@@ -64,6 +76,7 @@ const updateProduct=async(req,res)=>{
 module.exports={
    getProduct,
    getsProduct,
+   getProductsByFlavor,
    createProduct,
    deleteProduct,
    updateProduct
