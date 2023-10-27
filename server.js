@@ -7,6 +7,7 @@ const categoryRoutes = require("./routes/categoryRoute");
 const productRoutes = require("./routes/productRoute");
 const reviewsRoutes = require("./routes/reviewRoute");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+
 const app = express();
 
 app.get("/", function (req, res) {
@@ -18,8 +19,9 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
+  next()
 });
-//routes
+// //routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/categoryRoute", categoryRoutes);
 app.use("/api/productRoute", productRoutes);

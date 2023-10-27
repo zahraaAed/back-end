@@ -7,14 +7,14 @@ const {
   deleteReview,
   updateReview,
 } = require("../controllers/reviewController");
-router.get("/review", getReview);
+router.get("/", getReview);
 
-router.get("/review/:id", getsReview);
+router.get("/:id", getsReview);
 
-router.post("/review-post", createReview);
+router.post("/post", createReview);
 
-router.delete("/review-delete/:id", deleteReview);
+router.delete("/delete/:id", deleteReview);
 
-router.patch("/review-update/:id", updateReview);
+router.patch("/update/:id", updateReview);
 
 module.exports = router;

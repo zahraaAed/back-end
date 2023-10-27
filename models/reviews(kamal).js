@@ -10,7 +10,7 @@ const review_schema = mongoose.Schema({
     required: [true, "Please enter a review"],
   },
   product_id: {
-    type: Number,
+    type: String,
     required: [true, "Please enter product ID"],
   },
 });

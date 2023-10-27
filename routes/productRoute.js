@@ -8,16 +8,16 @@ const {
   deleteProduct,
   updateProduct,
 } = require("../controllers/productsController");
-router.get("/product", getProduct);
+router.get("/", getProduct);
 
-router.get("/product/:id", getsProduct);
+router.get("/:id", getsProduct);
 
-router.get("/product-flavor", getProductsByFlavor);
+router.get("/flavor", getProductsByFlavor);
 
-router.post("/product-post", createProduct);
+router.post("/post", createProduct);
 
-router.delete("/product-delete/:id", deleteProduct);
+router.delete("/delete/:id", deleteProduct);
 
-router.patch("/product-update/:id", updateProduct);
+router.patch("/update/:id", updateProduct);
 
 module.exports = router;

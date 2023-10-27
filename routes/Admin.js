@@ -7,14 +7,14 @@ const {
   deleteAdmin,
   updateAdmin,
 } = require("../controllers/AdminController");
-router.get("/admin", getAdmin);
+router.get("/", getAdmin);
 
-router.get("/admin/:id", getsAdmin);
+router.get("/:id", getsAdmin);
 
-router.post("/admin-post", createAdmin);
+router.post("/post", createAdmin);
 
-router.delete("/admin-delete/:id", deleteAdmin);
+router.delete("/delete/:id", deleteAdmin);
 
-router.patch("/admin-update/:id", updateAdmin);
+router.patch("/update/:id", updateAdmin);
 
 module.exports = router;
