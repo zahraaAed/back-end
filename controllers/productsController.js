@@ -1,5 +1,17 @@
 const Product = require("../models/products");
 const mongoose = require("mongoose");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname); // Generate a unique filename for each file
+  },
+});
+const upload = multer({ storage: storage });
+
 //get all
 const getProduct = async (req, res) => {
   const products = await Product.find({}).sort({ createdAt: -1 });
@@ -37,7 +49,7 @@ const createProduct = async (req, res) => {
   const {
     productName,
     description,
-    Categories_Id,
+    categoriesId,
     Flavours,
     best_seller,
     Price,
@@ -47,16 +59,34 @@ const createProduct = async (req, res) => {
     const products = await Product.create({
       productName,
       description,
-      Categories_Id,
+      category: categoriesId,
       Flavours,
       best_seller,
       Price,
       Images,
     });
-    res.status(200).json(products);
+    res.status(200).json({
+      status: 200,
+      message: "successfully create the data",
+      data: products,
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({
+      status: 404,
+      message: "error in the data",
+      data: null,
+    });
   }
+  // Add multer upload middleware to handle file uploads
+  upload.single("Images")(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({
+        status: 400,
+        message: "Error uploading the file",
+        data: null,
+      });
+    }
+  });
 };
 //delete
 const deleteProduct = async (req, res) => {

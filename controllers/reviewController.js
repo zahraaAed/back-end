@@ -23,7 +23,7 @@ const getsReview = async (req, res) => {
 const createReview = async (req, res) => {
   const { Name, Product_Id, Reviews } = req.body;
   try {
-    const reviews = await Review.create({ Name, Product_Id, Reviews });
+    const reviews = await Review.create({ Name, product: Product_Id, Reviews });
     res.status(200).json(reviews);
   } catch (error) {
     res.status(400).json({ error: error.message });
