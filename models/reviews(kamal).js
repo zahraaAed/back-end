@@ -1,20 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const review_schema = mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter your name"]
+    required: [true, "Please enter your name"],
   },
   body: {
     type: String,
-    required: [true, "Please enter a review"]
+    required: [true, "Please enter a review"],
   },
   product_id: {
     type: Number,
-    required: [true, "Please enter product ID"]
-  }
+    required: [true, "Please enter product ID"],
+  },
 });
 
-const Review =  mongoose.model("review", review_schema);
+const Review = mongoose.model("review", review_schema);
 
 // module.exports = Review;
