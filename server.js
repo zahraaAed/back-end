@@ -26,7 +26,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/categoryRoute", categoryRoutes);
 app.use("/api/productRoute", productRoutes);
 app.use("/api/reviewRoute", reviewsRoutes);
-app.use("/api/feedbackRoute", feedbackRoutes);
+// app.use("/api/feedbackRoute", feedbackRoutes);
 //mongoose
 
 mongoose

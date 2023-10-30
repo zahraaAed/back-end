@@ -10,11 +10,11 @@ const getCategory = async (req, res) => {
 const getsCategory = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   const categories = await Category.findById(id);
   if (!categories) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   res.status(200).json(categories);
 };
@@ -33,11 +33,11 @@ const createCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   const categories = await Category.findOneAndDelete({ _id: id });
   if (!categories) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   res.status(200).json(categories);
 };
@@ -46,16 +46,16 @@ const deleteCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   const categories = await Category.findByIdAndUpdate(
     { _id: id },
     {
-      ...req.body,
+      ...req.body
     }
   );
   if (!categories) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: " no such category" });
   }
   res.status(200).json(categories);
 };

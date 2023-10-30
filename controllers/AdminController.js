@@ -51,7 +51,7 @@ const updateAdmin = async (req, res) => {
   const Admins = await Admin.findByIdAndUpdate(
     { _id: id },
     {
-      ...req.body,
+      ...req.body
     }
   );
   if (!Admins) {

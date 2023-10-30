@@ -1,16 +1,17 @@
 const Product = require("../models/products");
 const mongoose = require("mongoose");
-const multer = require("multer");
+// const multer = require("multer");
+const Category = require('../models/categories');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + file.originalname); // Generate a unique filename for each file
-  },
-});
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + file.originalname); // Generate a unique filename for each file
+//   },
+// });
+// const upload = multer({ storage: storage });
 
 //get all
 const getProduct = async (req, res) => {
@@ -22,11 +23,11 @@ const getProduct = async (req, res) => {
 const getsProduct = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: "error in the product" });
   }
   const products = await Product.findById(id);
   if (!products) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: "error in the product" });
   }
   res.status(200).json(products);
 };
@@ -50,53 +51,63 @@ const createProduct = async (req, res) => {
     productName,
     description,
     categoriesId,
-    Flavours,
-    best_seller,
-    Price,
-    Images,
+    flavours,
+    bestSeller,
+    price,
+    images
   } = req.body;
+
   try {
+    const category = await Category.findById(categoriesId);
+    if(!category){
+      return res.status(404).json({
+        status: 404,
+        message: 'Category not found',
+        data: null
+      });
+    }
     const products = await Product.create({
       productName,
       description,
-      category: categoriesId,
-      Flavours,
-      best_seller,
-      Price,
-      Images,
+      categoriesId,
+      flavours,
+      bestSeller,
+      price,
+      images
     });
     res.status(200).json({
       status: 200,
       message: "successfully create the data",
-      data: products,
+      data: products
     });
   } catch (error) {
     res.status(400).json({
       status: 404,
       message: "error in the data",
-      data: null,
+      data: null
     });
   }
+}
   // Add multer upload middleware to handle file uploads
-  upload.single("Images")(req, res, (err) => {
-    if (err) {
-      return res.status(400).json({
-        status: 400,
-        message: "Error uploading the file",
-        data: null,
-      });
-    }
-  });
-};
+//   upload.single("Images")(req, res, (err) => {
+//     if (err) {
+//       return res.status(400).json({
+//         status: 400,
+//         message: "Error uploading the file",
+//         data: null,
+//       });
+//     }
+//   });
+// };
 //delete
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: "error in the product id" });
   }
   const products = await Product.findOneAndDelete({ _id: id });
   if (!products) {
-    return res.status(404).json({ error: "error in the workout" });
+    return res.status(404).json({ error: "error in the product id" });
   }
   res.status(200).json(products);
 };
@@ -104,20 +115,36 @@ const deleteProduct = async (req, res) => {
 //update
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the workout" });
-  }
-  const products = await Product.findByIdAndUpdate(
-    { _id: id },
-    {
-      ...req.body,
+  const categoryId = req.body.categoriesId;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "error in the product" });
     }
-  );
-  if (!products) {
-    return res.status(404).json({ error: "error in the workout" });
-  }
-  res.status(200).json(products);
-};
+    const category = await Category.findById(categoryId);
+    if(!category){
+      return res.status(404).json({
+        status: 404,
+        message: 'Product category not found',
+        data: null
+      });
+    }
+    const products = await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        ...req.body,
+      }
+    );
+    if (!products) {
+      return res.status(404).json({ error: "error in the product" });
+    }
+    res.status(200).json(products);
+  }catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: "error in the data",
+      data: null
+    });
+  };}
 module.exports = {
   getProduct,
   getsProduct,
