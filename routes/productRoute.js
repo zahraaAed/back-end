@@ -1,5 +1,7 @@
 
 const express=require("express")
+
+const upload=require("../multer")
 const router=express.Router()
 const{   getProduct,
     getsProduct,
@@ -15,13 +17,14 @@ router.get("/", getProduct);
 
   router.get("/product", getProductsByFlavor);
 
-  router.post("/",createProduct)
+  router.post("/",upload.single("images"), createProduct)
 
 
   router.delete("/:id",deleteProduct)
 
 
-  router.patch("/:id", updateProduct)
+  router.put("/:id", updateProduct)
+  
 
 
    module.exports=router

@@ -1,23 +1,41 @@
 const Admin=require("../models/admin")
 const mongoose=require('mongoose')
-//get all Admins
+//get all admin
 const getAdmin=async (req, res) =>{
 
-      const Admins=await Admin.find({}).sort({createdAt: -1})
-      res.status(200).json(Admins)
-    }
+      const admin=await Admin.find({}).sort({createdAt: -1})
+      res.status(200).json({
+        status: 200,
+        message: "succeffully get the data",
+        data: admin
+      })
+      }
+      
+    
    
 //get a single Admin
 const getsAdmin=async (req, res) =>{
     const{id}=req.params
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error :'error in the Admin'})
+        return res.status(404).json({
+          status: 404,
+          message:"error in get the  data",
+          data:null})
     }
-    const Admins=await Admin.findById(id)
-if(!Admins){
-    return res.status(404).json({error :'error in the Admin'})
+    const admin=await Admin.findById(id)
+if(!admin){
+    return res.status(404).json({
+status:400,
+      message :'error in the Admin',
+      data:null
+    })
 }
-res.status(200).json(Admins)
+res.status(200).json({
+  status: 200,
+  message: "succeffully get the single data",
+  data: admin
+})
+
 }
 
 
@@ -25,40 +43,71 @@ res.status(200).json(Admins)
 const createAdmin=async (req, res) =>{
     const{email,password}=req.body
     try {
-      const Admins=await Admin.create({email,password})
-      res.status(200).json(Admins)
+      const admin=await Admin.create({email,password})
+      res.status(200).json({
+        status: 200,
+  message: "succeffully creating the data",
+  data: admin
+})
+      
     }
     catch (error){
-      res.status(400).json({error:error.message} )
+      res.status(404).json({
+        status:404,
+        message:"error in the data",
+        data:null
+      })
+  
 
     }
-  }
+}
   //delete
   const deleteAdmin=async(req,res)=>{
   const{id}=req.params
   if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).json({error :'error in the Admin'})
+      return res.status(404).json({
+        status:404,
+        message:"error in the data",
+        data:null})
   }
-  const Admins=await Admin.findOneAndDelete({_id:id})
-if(!Admins){
-  return res.status(404).json({error :'error in the Admin'})
+  
+  const admin=await Admin.findOneAndDelete({_id:id})
+if(!admin){
+  return res.status(404).json({
+    status:404,
+    message:'error in the deleting',
+  data:null
+})
 }
-res.status(200).json(Admins)
+res.status(200).json({
+  status:200,
+message:"successfully deleting the data",
+  data:admin })
+  
 }
-
 //update
 const updateAdmin=async(req,res)=>{
     const{id}=req.params
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error :'error in the Admin'})
+        return res.status(404).json({
+          status:404,
+          message :'error in the data',
+        data:null})
     }
-    const Admins=await Admin.findByIdAndUpdate({_id:id},{
+    const admin=await Admin.findByIdAndUpdate({_id:id},{
         ...req.body
     })
-  if(!Admins){
-    return res.status(404).json({error :'error in the Admin'})
+  if(!admin){
+    return res.status(404).json({
+      status:404,
+      message :'error in the data',
+    data:null})
   }
-  res.status(200).json(Admins)
+  res.status(200).json({
+    status:200,
+    message:"successfully updating the data",
+      data:admin
+  })
   }
 module.exports={
     getAdmin,

@@ -1,83 +1,190 @@
 
-const Product=require("../models/products")
-const mongoose=require('mongoose')
-//get all 
-const getProduct=async (req, res) =>{
+const Product = require("../models/products")
+const mongoose = require('mongoose')
 
-      const products=await Product.find({}).sort({createdAt: -1})
-      res.status(200).json(workouts)
-    }
-   
+const Category = require('../models/categories')
+
+
+
+//get all 
+const getProduct = async (req, res) => {
+
+  const products = await Product.find({}).sort({ createdAt: -1 })
+  res.status(200).json({
+    status: 200,
+    message: 'successfully get the data',
+    data: products
+  })
+}
+
 //get a single one
-const getsProduct=async (req, res) =>{
-    const{id}=req.params
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error :'error in the workout'})
-    }
-    const products=await Product.findById(id)
-if(!products){
-    return res.status(404).json({error :'error in the workout'})
+const getsProduct = async (req, res) => {
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'error in the workout' })
+  }
+  const products = await Product.findById(id)
+  if (!products) {
+    return res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
+    })
+  }
+  res.status(200).json({
+    status: 200,
+    message: 'successfully get the single data',
+    data: products
+  })
 }
-res.status(200).json(products)
-}
+
+
 
 //for flavours
-const getProductsByFlavor = async(req, res) => {
+const getProductsByFlavor = async (req, res) => {
   try {
     const flavor = req.query.flavor
     const products = await Product.filter(obj => obj.flavours === flavor);
 
-    res.status(200).json(products);
+    res.status(200).json({
+      status: 200,
+      message: 'successfully get the flavours',
+      data: products
+    });
   } catch {
-      console.log(error.message);
-      res.status(500).json({message: error.message})
-    }
+    console.log(error.message);
+    res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
+    })
+  }
 }
+
+
+
 
 //create
-const createProduct=async (req, res) =>{
-    const{productName,description,Categories_Id,Flavours, best_seller,Price,Images}=req.body
-    try {
-      const products=await Product.create({productName,description,Categories_Id,Flavours, best_seller,Price,Images})
-      res.status(200).json(products)
-    }
-    catch (error){
-      res.status(400).json({error:error.message} )
 
+// const createProduct = async (req, res) => {
+//   // // Use Multer upload middleware to handle file uploads
+//   // upload.single('Images')(req, res, async (err) => {
+//   //   if (err) {
+//   //     return res.status(400).json({
+//   //       status: 400,
+//   //       message: 'Error uploading the file',
+//   //       data: null,
+//   //     });
+//   //   }
+
+//     const { categoryId } = req.body;
+//     const newProduct = new Product(req.body);
+
+//     try {
+//       const category = await Category.findById(categoryId);
+
+//       if (!category) {
+//         return res.status(404).json({
+//           status: 404,
+//           message: 'Category not found',
+//           data: null
+//         });
+//       }
+//       newProduct.categoryId = categoryId;
+
+//       const product = await newProduct.save();
+
+//       res.status(200).json({
+//         status: 200,
+//         message: 'Successfully created the product',
+//         data: product
+//       });
+//     } catch (error) {
+//       res.status(400).json({
+//         status: 400,
+//         message: 'Error in creating the product',
+//         error: error.message,
+//         data: null
+//       });
+//     }
+// //   });
+//   }
+
+
+ const createProduct = async (req, res) => {
+    const { categoryId } = req.body;
+
+    try {
+      const newProduct = new Product(req.body);
+      newProduct.images = req.file.path;
+
+      const findCategory =await Category.findById(categoryId)
+    if(!findCategory){
+      return res.status(404).json("Category not found")
     }
+  
+      const savedProduct = await newProduct.save();
+      res.status(201).json(savedProduct);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+
+//delete
+const deleteProduct = async (req, res) => {
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
+    })
   }
-  //delete
-  const deleteProduct=async(req,res)=>{
-  const{id}=req.params
-  if(!mongoose.Types.ObjectId.isValid(id)){
-      return res.status(404).json({error :'error in the workout'})
+  const products = await Product.findOneAndDelete({ _id: id })
+  if (!products) {
+    return res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
+    })
   }
-  const products=await Product.findOneAndDelete({_id:id})
-if(!products){
-  return res.status(404).json({error :'error in the workout'})
-}
-res.status(200).json(products)
+  res.status(200).json({
+    status: 200,
+    message: 'successfully delete the data',
+    data: products
+  })
 }
 
 //update
-const updateProduct=async(req,res)=>{
-    const{id}=req.params
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error :'error in the workout'})
-    }
-    const products=await Product.findByIdAndUpdate({_id:id},{
-        ...req.body
+const updateProduct = async (req, res) => {
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
     })
-  if(!products){
-    return res.status(404).json({error :'error in the workout'})
   }
-  res.status(200).json(products)
+  const products = await Product.findByIdAndUpdate(id)
+  if (!products) {
+    return res.status(404).json({
+      status: 404,
+      message: 'error in the data',
+      data: null
+    })
   }
-module.exports={
-   getProduct,
-   getsProduct,
-   getProductsByFlavor,
-   createProduct,
-   deleteProduct,
-   updateProduct
+  res.status(200).json({
+    status: 200,
+    message: 'successfully update the data',
+    data: products
+  })
+}
+module.exports = {
+  getProduct,
+  getsProduct,
+  getProductsByFlavor,
+  createProduct,
+  deleteProduct,
+  updateProduct
 }

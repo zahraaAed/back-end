@@ -9,10 +9,11 @@ const{getCategory,
 }=require('../controllers/categoryController')
 router.get("/", getCategory);
 
+
   router.get("/:id", getsCategory);
 
 
-  router.post("/",createCategory)
+  router.post("/category",createCategory)
 
 
   router.delete("/:id",deleteCategory)
