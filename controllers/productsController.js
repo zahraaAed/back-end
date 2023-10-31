@@ -1,17 +1,7 @@
 const Product = require("../models/products");
 const mongoose = require("mongoose");
-// const multer = require("multer");
-const Category = require('../models/categories');
-
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "uploads/");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().toISOString() + file.originalname); // Generate a unique filename for each file
-//   },
-// });
-// const upload = multer({ storage: storage });
+const Category = require("../models/categories");
+const path = require("path");
 
 //get all
 const getProduct = async (req, res) => {
@@ -53,17 +43,19 @@ const createProduct = async (req, res) => {
     categoriesId,
     flavours,
     bestSeller,
-    price,
-    images
+    price
   } = req.body;
-
+  const image = req.body.images;
+  if (image) {
+    var images = path.join("/images", req.file.filename)
+  }
   try {
     const category = await Category.findById(categoriesId);
-    if(!category){
+    if (!category) {
       return res.status(404).json({
         status: 404,
-        message: 'Category not found',
-        data: null
+        message: "Category not found",
+        data: null,
       });
     }
     const products = await Product.create({
@@ -73,32 +65,22 @@ const createProduct = async (req, res) => {
       flavours,
       bestSeller,
       price,
-      images
+      images,
     });
     res.status(200).json({
       status: 200,
       message: "successfully create the data",
-      data: products
+      data: products,
     });
   } catch (error) {
     res.status(400).json({
       status: 404,
       message: "error in the data",
-      data: null
+      data: null,
     });
   }
-}
-  // Add multer upload middleware to handle file uploads
-//   upload.single("Images")(req, res, (err) => {
-//     if (err) {
-//       return res.status(400).json({
-//         status: 400,
-//         message: "Error uploading the file",
-//         data: null,
-//       });
-//     }
-//   });
-// };
+};
+
 //delete
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
@@ -121,11 +103,11 @@ const updateProduct = async (req, res) => {
       return res.status(404).json({ error: "error in the product" });
     }
     const category = await Category.findById(categoryId);
-    if(!category){
+    if (!category) {
       return res.status(404).json({
         status: 404,
-        message: 'Product category not found',
-        data: null
+        message: "Product category not found",
+        data: null,
       });
     }
     const products = await Product.findByIdAndUpdate(
@@ -138,18 +120,19 @@ const updateProduct = async (req, res) => {
       return res.status(404).json({ error: "error in the product" });
     }
     res.status(200).json(products);
-  }catch (error) {
+  } catch (error) {
     res.status(500).json({
       status: 500,
       message: "error in the data",
-      data: null
+      data: null,
     });
-  };}
+  }
+};
 module.exports = {
   getProduct,
   getsProduct,
   getProductsByFlavor,
   createProduct,
   deleteProduct,
-  updateProduct,
+  updateProduct
 };

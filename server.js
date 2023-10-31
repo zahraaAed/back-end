@@ -6,7 +6,7 @@ const adminRoutes = require("./routes/Admin");
 const categoryRoutes = require("./routes/categoryRoute");
 const productRoutes = require("./routes/productRoute");
 const reviewsRoutes = require("./routes/reviewRoute");
-const feedbackRoutes = require("./routes/feedbackRoutes");
+// const feedbackRoutes = require("./routes/feedbackRoutes");
 
 const app = express();
 
@@ -27,6 +27,7 @@ app.use("/api/categoryRoute", categoryRoutes);
 app.use("/api/productRoute", productRoutes);
 app.use("/api/reviewRoute", reviewsRoutes);
 // app.use("/api/feedbackRoute", feedbackRoutes);
+app.use("/images", express.static("images"));
 //mongoose
 
 mongoose
