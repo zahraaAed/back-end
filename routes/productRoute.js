@@ -13,14 +13,15 @@ const{   getProduct,
 }=require('../controllers/productsController')
 router.get("/", getProduct);
 
-  router.get("/:id", getsProduct);
+router.get("/:id", getsProduct);
 
-  router.get("/product", getProductsByFlavor);
+router.get("/flavor", getProductsByFlavor);
 
   router.post("/",upload.single("images"), createProduct)
 
+router.delete("/delete/:id", deleteProduct);
 
-  router.delete("/:id",deleteProduct)
+router.patch("/update/:id", updateProduct);
 
 
   router.put("/:id", updateProduct)

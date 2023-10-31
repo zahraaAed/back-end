@@ -1,6 +1,6 @@
+const Category = require("../models/categories");
+const mongoose = require("mongoose");
 
-const Category=require("../models/categories")
-const mongoose=require('mongoose')
 //get all 
 const getCategory=async (req, res) =>{
       const categories=await Category.find({}).sort({createdAt: -1})

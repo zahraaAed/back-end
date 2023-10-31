@@ -1,7 +1,12 @@
 require("dotenv").config();
-const express=require("express")
-const mongoose=require('mongoose')
+const express = require("express");
+const mongoose = require("mongoose");
 
+const adminRoutes = require("./routes/Admin");
+const categoryRoutes = require("./routes/categoryRoute");
+const productRoutes = require("./routes/productRoute");
+const reviewsRoutes = require("./routes/reviewRoute");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 
 const adminRoutes=require('./routes/Admin')
 const categoryRoutes=require('./routes/categoryRoute')
@@ -31,11 +36,13 @@ app.use((req,res,next)=>{
   //app.use('/api/feedbackRoute', feedbackRoutes)
 //mongoose
 
-mongoose.connect(process.env.MONGO).then(()=>{
-  app.listen(process.env.PORT,()=>{
-    console.log(`Server is running on ${process.env.PORT}`)
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on ${process.env.PORT}`);
+    });
   })
-})
   .catch((err) => {
     console.log("Error connecting to the database:", err);
   });
