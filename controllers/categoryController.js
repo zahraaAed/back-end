@@ -21,14 +21,19 @@ const getsCategory = async (req, res) => {
 
 //create
 const createCategory = async (req, res) => {
-  const { categoryName } = req.body;
   try {
-    const categories = await Category.create({ categoryName });
-    res.status(200).json(categories);
+    const newCategory = new Category(req.body)
+    if (req.file) {
+      newCategory.images = req.file.path;
+      console.log(req.file.path)
+    }
+    const categorie = await newCategory.save({});
+    res.status(200).json(categorie);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 };
+
 //delete
 const deleteCategory = async (req, res) => {
   const { id } = req.params;

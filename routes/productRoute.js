@@ -1,6 +1,6 @@
 const express = require("express");
-const router = express.Router();
-const upload = require("../multer");
+const Router = express.Router();
+const Upload = require("../multer");
 
 const {
   getProduct,
@@ -10,16 +10,16 @@ const {
   deleteProduct,
   updateProduct,
 } = require("../controllers/productsController");
-router.get("/", getProduct);
+Router.get("/", getProduct);
 
-router.get("/:id", getsProduct);
+Router.get("/:id", getsProduct);
 
-router.get("/flavor", getProductsByFlavor);
+Router.get("/flavor", getProductsByFlavor);
 
-router.post("/post", upload.single("Images"), createProduct);
+Router.post("/post", Upload.single("images"), createProduct);
 
-router.delete("/delete/:id", deleteProduct);
+Router.delete("/delete/:id", deleteProduct);
 
-router.patch("/update/:id", upload.single("Image"), updateProduct);
+Router.patch("/update/:id", Upload.single("images"), updateProduct);
 
-module.exports = router;
+module.exports = Router;

@@ -45,6 +45,7 @@ const deleteAdmin = async (req, res) => {
 //update
 const updateAdmin = async (req, res) => {
   const { id } = req.params;
+  
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "error in the Admin" });
   }

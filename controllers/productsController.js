@@ -2,6 +2,7 @@ const Product = require("../models/products");
 const mongoose = require("mongoose");
 const Category = require("../models/categories");
 const path = require("path");
+const { CLIENT_RENEG_LIMIT } = require("tls");
 
 //get all
 const getProduct = async (req, res) => {
@@ -37,50 +38,27 @@ const getProductsByFlavor = async (req, res) => {
 
 //create
 const createProduct = async (req, res) => {
-  const {
-    productName,
-    description,
-    categoriesId,
-    flavours,
-    bestSeller,
-    price
-  } = req.body;
-  const image = req.body.images;
-  if (image) {
-    var images = path.join("/images", req.file.filename)
-  }
+  const { categoriesId } = req.body;
+
   try {
-    const category = await Category.findById(categoriesId);
-    if (!category) {
-      return res.status(404).json({
-        status: 404,
-        message: "Category not found",
-        data: null,
-      });
+   let newProduct = new Product(req.body);
+
+    if (req.file) {
+      newProduct.images = req.file.path;
+      console.log(req.file.path)
     }
-    const products = await Product.create({
-      productName,
-      description,
-      categoriesId,
-      flavours,
-      bestSeller,
-      price,
-      images,
-    });
-    res.status(200).json({
-      status: 200,
-      message: "successfully create the data",
-      data: products,
-    });
+    const findCategory = await Category.findById(categoriesId);
+
+    if (!findCategory) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
   } catch (error) {
-    res.status(400).json({
-      status: 404,
-      message: "error in the data",
-      data: null,
-    });
+    res.status(500).json({ error: error.message });
   }
 };
-
 //delete
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
