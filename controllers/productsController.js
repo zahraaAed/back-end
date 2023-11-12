@@ -76,10 +76,13 @@ const deleteProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const categoryId = req.body.categoriesId;
+  let updatedProduct = {...req.body};
+
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ error: "error in the product" });
     }
+    if (categoryId) {
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).json({
@@ -87,12 +90,13 @@ const updateProduct = async (req, res) => {
         message: "Product category not found",
         data: null,
       });
+    }}
+    if (req.file) {
+      updatedProduct.images = req.file.path;
     }
     const products = await Product.findByIdAndUpdate(
       { _id: id },
-      {
-        ...req.body,
-      }
+      updatedProduct
     );
     if (!products) {
       return res.status(404).json({ error: "error in the product" });

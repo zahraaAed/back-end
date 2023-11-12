@@ -6,7 +6,7 @@ const ProductSchema = new Schema({
   description: { type: String, required: true },
   categoriesId: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   flavours: [{ type: String, required: true }],
-  bestSeller: { type: Boolean, required: true },
+  bestSeller: { type: Boolean, default: false },
   price: { type: String, required: true },
   images: { type: String, required: true },
 });
