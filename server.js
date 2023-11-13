@@ -2,12 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
-const adminRoutes = require("./routes/Admin");
-const categoryRoutes = require("./routes/categoryRoute");
-const productRoutes = require("./routes/productRoute");
-const reviewsRoutes = require("./routes/reviewRoute");
-const feedbackRoutes = require("./routes/feedbackRoutes");
-
 const adminRoutes=require('./routes/Admin')
 const categoryRoutes=require('./routes/categoryRoute')
 const productRoutes=require('./routes/productRoute')
