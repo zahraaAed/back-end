@@ -9,10 +9,14 @@ const {
   createProduct,
   deleteProduct,
   updateProduct,
+  getProductsByCategoryId
 } = require("../controllers/productsController");
+
 Router.get("/", getProduct);
 
-Router.get("/:id", getsProduct);
+Router.get("/product/:id", getsProduct);
+
+Router.get("/category/:categoryId", getProductsByCategoryId);
 
 Router.get("/flavor", getProductsByFlavor);
 

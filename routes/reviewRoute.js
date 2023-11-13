@@ -6,8 +6,11 @@ const {
   createReview,
   deleteReview,
   updateReview,
+  getReviewByProductId
 } = require("../controllers/reviewController");
 router.get("/", getReview);
+
+router.get("/review/:productId", getReviewByProductId);
 
 router.get("/:id", getsReview);
 

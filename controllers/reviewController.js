@@ -7,6 +7,15 @@ const getReview = async (req, res) => {
   res.status(200).json(reviews);
 };
 
+//get by product id
+
+const getReviewByProductId = async (req, res) => {
+  console.log('we are in review controller')
+  const {productId} = req.params;
+  const reviews = await Review.find({productsId:productId}).sort({ createdAt: -1 });
+  res.status(200).json(reviews);
+};
+
 //get a single one
 const getsReview = async (req, res) => {
   const { id } = req.params;
@@ -79,4 +88,5 @@ module.exports = {
   createReview,
   deleteReview,
   updateReview,
+  getReviewByProductId
 };

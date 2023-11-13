@@ -9,13 +9,18 @@ const getProduct = async (req, res) => {
   const products = await Product.find({}).sort({ createdAt: -1 });
   res.status(200).json(products);
 };
+//getProductsByCategoryId
+const getProductsByCategoryId = async (req, res) => {
+  const {categoryId}=req.params
+  const products = await Product.find({categoriesId:categoryId}).sort({ createdAt: -1 });
+  res.status(200).json(products);
+};
 
 //get a single one
 const getsProduct = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "error in the product" });
-  }
+  console.log('id is ',id)
+
   const products = await Product.findById(id);
   if (!products) {
     return res.status(404).json({ error: "error in the product" });
@@ -116,5 +121,6 @@ module.exports = {
   getProductsByFlavor,
   createProduct,
   deleteProduct,
-  updateProduct
+  updateProduct,
+  getProductsByCategoryId
 };
